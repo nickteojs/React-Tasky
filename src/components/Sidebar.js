@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { AiFillPushpin, AiFillStar } from 'react-icons/ai'
 import Button from './Button'
@@ -5,7 +6,7 @@ import Footer from './Footer'
 import Quote from './Quote'
 import Pinned from './Pinned'
 
-const Sidebar = ({tasks, pinnedTasks, filteredTasks, onAdd, showAdd, setStatus, status}) => {
+const Sidebar = ({tasks, pinnedTasks, completedTasks, filteredTasks, onAdd, showAdd, setStatus, status}) => {
     const location = useLocation()
 
     const allHandler = () => {
@@ -23,8 +24,8 @@ const Sidebar = ({tasks, pinnedTasks, filteredTasks, onAdd, showAdd, setStatus, 
             <h1 className="app-title">Tasky</h1>
             <div className="status-buttons">
                 <div className={`status-btn ${status === 'all' ? 'active' : ''}`} onClick={allHandler}>All ({tasks.length})</div>
-                <div className={`status-btn ${status === 'uncompleted' ? 'active' : ''}`} onClick={uncompletedHandler}>Uncompleted {(filteredTasks.filter((task) => task.completed === false)).length}</div>
-                <div className={`status-btn ${status === 'completed' ? 'active' : ''}`} onClick={completedHandler}>Completed {(filteredTasks.filter((task) => task.completed === true)).length}</div>
+                <div className={`status-btn ${status === 'uncompleted' ? 'active' : ''}`} onClick={uncompletedHandler}>Uncompleted {completedTasks}</div>
+                <div className={`status-btn ${status === 'completed' ? 'active' : ''}`} onClick={completedHandler}>Completed</div>
             </div>
             {location.pathname === '/' && <button className="add-task-btn" color='green' text='Add' onClick={onAdd}>Add Task</button>}
             <Quote />

@@ -14,8 +14,8 @@ function App() {
     const [status, setStatus] = useState('all');
     const [filteredTasks, setFilteredTasks] = useState([]);
     const [pinnedTasks, setPinnedTasks] = useState([]);
-    // const localItem = localStorage.getItem('tasks');
-    // console.log(JSON.parse(localItem));
+    const [completedTasks, setCompletedTasks] = useState([]);
+    const [unCompletedTasks, setUncompletedTasks] = useState([]);
 
     useEffect(() => {
       localStorage.setItem('task', JSON.stringify(tasks));
@@ -27,6 +27,11 @@ function App() {
 
     useEffect(() => {
       pinnedFilterHandler()
+    }, [tasks])
+
+    useEffect(() => {
+      let completedTasks = (tasks.filter(task => task.completed)).length
+      setCompletedTasks(completedTasks);
     }, [tasks])
 
   // Add Task
@@ -48,19 +53,18 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id))
   }
 
-  // CompleteToggler
+  // Toggle Task Completion 
   const onComplete = (id) => {
     setTasks(tasks.map((task) => task.id === id ? {...task, completed: !task.completed} : task))
   }
 
-
-  // Toggle Pin
+  // Toggle Task's Pinned State
   // Takes ID so it can find out which task to toggle
   const togglePin = (id) => {
     setTasks(tasks.map((task) => task.id === id ? {...task, pin: !task.pin} : task))
   }
 
-  // Pin Filter Handler
+  // Filter Pinned Tasks
   const pinnedFilterHandler = () => {
     setPinnedTasks(tasks.filter(task=> task.pin === true))
   }
@@ -85,7 +89,7 @@ function App() {
 
   return (
     <Router>
-      <Sidebar tasks={tasks} pinnedTasks={pinnedTasks} filteredTasks={filteredTasks} onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} setStatus={setStatus} status={status}/>
+      <Sidebar tasks={tasks} completedTasks={completedTasks} pinnedTasks={pinnedTasks} filteredTasks={filteredTasks} onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} setStatus={setStatus} status={status}/>
       <div className="container">
         <Route path='/' exact render={(props) => (
           <>
