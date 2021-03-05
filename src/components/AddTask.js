@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
-import Button from './Button'
 
 const AddTask = ({ onAdd, setShowAddTask }) => {
     // Component level state
@@ -13,7 +12,7 @@ const AddTask = ({ onAdd, setShowAddTask }) => {
     const onSubmit = (e) => {
         // So it doesn't actually submit to a page
         e.preventDefault()
-        onAdd({ text, day, note, pin, completed })
+        onAdd({ text, day, note, pin, completed, timeDifferenceinDays })
         setText('')
         setDay('')
         setNote('')
@@ -21,6 +20,11 @@ const AddTask = ({ onAdd, setShowAddTask }) => {
         setCompleted(false)
         setShowAddTask()
     }
+
+    const currentDate = new Date();
+    const dueDate = (Date.parse(day))
+    const timeDifference = dueDate - currentDate;
+    const timeDifferenceinDays = Math.floor(timeDifference / (1000*3600*24));
 
     let today = new Date();
     let dd = today.getDate();
@@ -63,10 +67,9 @@ const AddTask = ({ onAdd, setShowAddTask }) => {
                         />
                     </div>
                     <div className="form-control">
-                        <label>Notes</label>
+                        <label>Notes (Optional)</label>
                         <input 
                             type="text"
-                            required
                             placeholder="Carton of eggs..."
                             value={note}
                             onChange={(e) => setNote(e.target.value)}

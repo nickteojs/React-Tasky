@@ -6,6 +6,23 @@
   padding: 0;
 }
 
+#style-1::-webkit-scrollbar {
+  width: 5px;
+  background-color: transparent;
+}
+
+#style-1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  background-color: lightblue;
+}
+
+#style-1::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  border-radius: 10px;
+  background-color: transparent;
+}
+
 a {
   text-decoration: none;
 }
@@ -17,7 +34,7 @@ body {
 }
 
 .sidebar {
-  width: 25%;
+  width: 27.5%;
   height: 100vh;
   background: rgba(0,65,124, 0.5);
   float: left;
@@ -26,23 +43,43 @@ body {
 
 .app-title {
   font-size: 4rem;
-  margin: 1em 0.3em;
+  margin: 0.5em 0.3em;
   color: white;
 }
 
 .container {
-  width: 75%;
+  width: 72.5%;
   height: 100vh;
-  overflow: auto;
+  overflow: scroll;
   min-height: 300px;
   padding: 30px;
-  padding-left: 80px;
+  display: grid;
+  grid-template-columns: 0.8fr;
+  grid-template-rows: 0.5fr 0.5fr;
+  gap: 0px;
+  justify-items: center;
+  justify-content: center;
   background: linear-gradient(90deg, rgba(0,45,80,1) 0%, rgba(0,65,124,1) 100%);
 }
 
 p {
   display: flex;
   justify-content: space-between;
+}
+
+.task-title {
+  font-size: 2.5rem;
+  color: white;
+  text-align: center;
+  margin-top: 0.5em;
+  grid-column: 1 / span 2;
+
+}
+
+.pinned-container {
+  overflow: scroll;
+  max-height: 250px;
+  overflow-x: hidden;
 }
 
 .pinned-task {
@@ -134,7 +171,7 @@ p {
 
 .quote {
   width: 100%;
-  min-height: 100px;
+  min-height: 80px;
   background: #F5F5F5;
   padding: 1rem;
   font-style: italic;
@@ -158,6 +195,11 @@ p {
 .task-date {
   padding: 1rem;
 }
+
+.task-time {
+  padding: 0 1rem 1rem 1rem;
+}
+
 .task-desc {
   padding: 0 1rem 4.5rem 1rem;
 }
@@ -172,7 +214,7 @@ p {
 }
 
 .task-btn {
-  width: 33.3%;
+  width: 100%;
   height: 100%;
   cursor: pointer;
   display: flex;
@@ -180,11 +222,11 @@ p {
 }
 
 .btn-add {
-  background: #A4FFB8;
+  background: #63ff85;
 }
 
 .btn-add:hover {
-  background: #4AA65E;
+  background: #5aca73;
 }
 .btn-delete:hover {
   background: #B96161;
@@ -199,6 +241,12 @@ p {
 .btn-pin {
   background: #FFE194;
 }
+.btn-update {
+  background: #42A5FF;
+}
+.btn-update:hover {
+  background: #1a90ff;
+}
 
 .filter-todo {
   border: none;
@@ -211,7 +259,8 @@ p {
 
 .delete-button,
 .add-button,
-.pin-button {
+.pin-button,
+.update-button {
   width: 30px;
   height: 30px;
   align-self: center;
@@ -276,6 +325,13 @@ footer p:last-child {
   display: flex;
   text-align: center;
   color: black;
+}
+
+.add-task {
+  font-size: 2rem;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
 }
 
 .add-task-btn {

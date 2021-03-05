@@ -6,7 +6,7 @@ import Footer from './Footer'
 import Quote from './Quote'
 import Pinned from './Pinned'
 
-const Sidebar = ({tasks, pinnedTasks, completedTasks, filteredTasks, onAdd, showAdd, setStatus, status}) => {
+const Sidebar = ({tasks, pinnedTasks, completedTasks, unCompletedTasks, filteredTasks, showAdd, setStatus, status}) => {
     const location = useLocation()
 
     const allHandler = () => {
@@ -24,15 +24,16 @@ const Sidebar = ({tasks, pinnedTasks, completedTasks, filteredTasks, onAdd, show
             <h1 className="app-title">Tasky</h1>
             <div className="status-buttons">
                 <div className={`status-btn ${status === 'all' ? 'active' : ''}`} onClick={allHandler}>All ({tasks.length})</div>
-                <div className={`status-btn ${status === 'uncompleted' ? 'active' : ''}`} onClick={uncompletedHandler}>Uncompleted {completedTasks}</div>
-                <div className={`status-btn ${status === 'completed' ? 'active' : ''}`} onClick={completedHandler}>Completed</div>
+                <div className={`status-btn ${status === 'uncompleted' ? 'active' : ''}`} onClick={uncompletedHandler}>Uncompleted ({unCompletedTasks})</div>
+                <div className={`status-btn ${status === 'completed' ? 'active' : ''}`} onClick={completedHandler}>Completed ({completedTasks})</div>
             </div>
-            {location.pathname === '/' && <button className="add-task-btn" color='green' text='Add' onClick={onAdd}>Add Task</button>}
             <Quote />
             <div className="pinned-task-header"><p><AiFillStar className="pin-star"/>Important Tasks</p></div>
-            {pinnedTasks.map((task) => (
-                <Pinned pinnedTasks={task} key={task.id}/>
-            ))}
+            <div className="pinned-container" id={pinnedTasks.length > 6 && 'style-1'}>
+                {pinnedTasks.map((task) => (
+                    <Pinned pinnedTasks={task} key={task.id}/>
+                ))}
+            </div>
             <Footer className="footer"/>
             {/* <div className="custom-select">
                 <select name="todos">
