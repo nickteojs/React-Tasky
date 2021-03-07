@@ -1,12 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
-const Editor = ({tasks, onEdit, setShowEditor}) => {
+const Editor = ({taskToEdit, onEdit, setShowEditor, taskUpdate}) => {
+    const [text, setEditedText] = useState(taskToEdit.text)
+    const [day, setEditedDay] = useState(taskToEdit.day)
+    const [note, setEditedNote] = useState(taskToEdit.note)
 
     const onSubmit = (e) => {
         e.preventDefault();
+        onEdit({...taskToEdit, text, day, note});
+        setShowEditor(false);
+        taskUpdate();
     }
 
+    // useEffect(() => {
+    //     setEditedText(taskToEdit.text)
+    //     setEditedDay(taskToEdit.day)
+    //     setEditedNote(taskToEdit.note)
+    // }, [])
+    
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth()+1;
@@ -30,10 +42,9 @@ const Editor = ({tasks, onEdit, setShowEditor}) => {
                         <label>Task</label>
                         <input 
                             type="text" 
-                            value={tasks.text}
+                            defaultValue={taskToEdit.text}
                             required
-                            // 2 Way Binding, changes the state value into user input
-                            // onChange={(e) => setText(e.target.value)}
+                            onChange={(e) => setEditedText(e.target.value)}
                         />
                     </div>
                     <div className="form-control">
@@ -42,16 +53,16 @@ const Editor = ({tasks, onEdit, setShowEditor}) => {
                             type="date"
                             min={today}
                             required
-                            value={tasks.day}
-                            // onChange={(e) => setDay(e.target.value)}
+                            defaultValue={taskToEdit.day}
+                            onChange={(e) => setEditedDay(e.target.value)}
                         />
                     </div>
                     <div className="form-control">
                         <label>Notes (Optional)</label>
                         <input 
                             type="text"
-                            value={tasks.note}
-                            // onChange={(e) => setNote(e.target.value)}
+                            defaultValue={taskToEdit.note}
+                            onChange={(e) => setEditedNote(e.target.value)}
                         />
                     </div>
                     <FaTimes className="modal-X" onClick={setShowEditor}/>

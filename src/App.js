@@ -1,17 +1,18 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
 import Sidebar from './components/Sidebar'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 import Editor from './components/Editor'
 import About from './components/About'
 import { FcPlus } from 'react-icons/fc'
-import Button from './components/Button'
 import { useState, useEffect } from 'react'
-import { TaskContext, TaskProvider } from './context/TaskContext'
+
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
     const [showAddTask, setShowAddTask] = useState(false)
-    const [showEditor, setShowEditor] = useState(false)
     // 1st part is state you want to update, 2nd is the function to update it
     let storedTasks = localStorage.getItem('task');
     const [tasks, setTasks] = useState(storedTasks ? JSON.parse(storedTasks) : []);
@@ -21,7 +22,8 @@ function App() {
     const [completedTasks, setCompletedTasks] = useState([]);
     const [unCompletedTasks, setUncompletedTasks] = useState([]);
     const [taskTitle, setTaskTitle] = useState('')
-    const [taskToEdit, setTaskToEdit] = useState({});
+    const [showEditor, setShowEditor] = useState(false)
+    const [taskToEdit, setTaskToEdit] = useState([]);
 
     useEffect(() => {
       localStorage.setItem('task', JSON.stringify(tasks));
@@ -42,9 +44,6 @@ function App() {
       setUncompletedTasks(unCompletedTasks);
     }, [tasks])
 
-    useEffect(() => {
-      
-    })
 
   // Add Task
   const addTask = (task) => {
@@ -102,15 +101,28 @@ function App() {
     }
   }
 
-  // Editor Handler
+  // Editor Modal Handler
   const editorHandler = (task) => {
     setShowEditor(true);
-    console.log(task)
+    setTaskToEdit(task);
   }
-  
 
+  // Task Editor
+  const editTaskHandler = (editedTask) => {
+    setTasks(tasks.map((task) => task.id === editedTask.id ? {task, ...editedTask} : task))
+  }
+
+  const notifyTaskSuccess = () => toast.success("Task Added!");
+  const notifyTaskComplete = () => toast.success('Task Complete! Good Job 😄');
+  const notifyTaskRemove = () => toast.success("Task Removed!");
+  const notifyTaskUpdate = () => toast.success("Task Updated!");
+  
   return (
     <Router>
+      <ToastContainer 
+        autoClose={2500}
+        hideProgressBar
+      />
       <Sidebar 
         tasks={tasks} 
         completedTasks={completedTasks}
@@ -121,17 +133,15 @@ function App() {
         setStatus={setStatus} 
         status={status}
       />
-      <TaskProvider>
-        {showEditor && <Editor tasks={tasks} setShowEditor={() => setShowEditor(!showEditor)}/>}
-      </TaskProvider>
+      {showEditor && <Editor taskUpdate={notifyTaskUpdate} taskToEdit={taskToEdit} onEdit={editTaskHandler} setShowEditor={() => setShowEditor(!showEditor)}/>}
       <div className="container">
         <Route path='/' exact render={(props) => (
           <>
             {/* Shorthand turnary if else is nothing */}
-          {showAddTask && <AddTask onAdd={addTask} setShowAddTask={() => setShowAddTask(!showAddTask)}/>}
+          {showAddTask && <AddTask taskSuccess={notifyTaskSuccess} onAdd={addTask} setShowAddTask={() => setShowAddTask(!showAddTask)}/>}
           {/* Turnary Operator to display no tasks message */}
           <div className="task-title">{taskTitle}</div>
-          {tasks.length> 0 ? <Tasks tasks={tasks} filteredTasks={filteredTasks} onDelete={deleteTask} togglePin={togglePin} onToggle={onComplete} editorHandler={editorHandler}/> : <div style={{color: 'white'}}>Get started!</div>}
+          {tasks.length> 0 ? <Tasks taskComplete={notifyTaskComplete} taskRemove={notifyTaskRemove} tasks={tasks} filteredTasks={filteredTasks} onDelete={deleteTask} togglePin={togglePin} onToggle={onComplete} editorHandler={editorHandler}/> : <div style={{color: 'white'}}>Get started!</div>}
           <FcPlus className="add-task" onClick={() => setShowAddTask(!showAddTask)}/>
           </>
         )}/>

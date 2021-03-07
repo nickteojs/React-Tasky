@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
-const AddTask = ({ onAdd, setShowAddTask }) => {
+const AddTask = ({ onAdd, setShowAddTask, taskSuccess }) => {
     // Component level state
     const [text, setText] = useState('')
     const [day, setDay] = useState('')
@@ -18,7 +18,8 @@ const AddTask = ({ onAdd, setShowAddTask }) => {
         setNote('')
         setPin(false)
         setCompleted(false)
-        setShowAddTask()
+        setShowAddTask(false)
+        taskSuccess()
     }
 
     const currentDate = new Date();
