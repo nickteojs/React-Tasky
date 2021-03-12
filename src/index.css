@@ -251,11 +251,16 @@ footer p {
   padding: 30px;
   display: grid;
   gap: 15px;
+  justify-content: center;
   grid-template-columns: repeat (2, 0.8fr);
   grid-template-rows: 0.1fr 0.5fr;
-  justify-items: center;
-  justify-content: center;
   background: linear-gradient(90deg, rgba(0,45,80,1) 0%, rgba(0,65,124,1) 100%);
+}
+
+.reminder {
+  align-self: center;
+  justify-self: center;
+  grid-column: 1 / span 2;
 }
 
 .task-title {
@@ -268,13 +273,12 @@ footer p {
 
 .task {
   width: 350px;
-  min-height: 300px;
+  height: auto;
   background: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   position: relative;
   z-index: 8;
-  float: left;
   margin: 2rem;
 }
 
@@ -317,6 +321,7 @@ footer p {
   padding: 0 1rem 4.5rem 1rem;
   word-break: break-all;
   width: 100%;
+  min-height: 175px;
 }
 
 .task-buttons {

@@ -12,7 +12,7 @@ const AddTask = ({ onAdd, setShowAddTask, taskSuccess }) => {
     const onSubmit = (e) => {
         // So it doesn't actually submit to a page
         e.preventDefault()
-        onAdd({ text, day, note, pin, completed, timeDifferenceinDays })
+        onAdd({ text, day, note, pin, completed, timeDifferenceinDays, timeCreated })
         setText('')
         setDay('')
         setNote('')
@@ -26,6 +26,8 @@ const AddTask = ({ onAdd, setShowAddTask, taskSuccess }) => {
     const dueDate = (Date.parse(day))
     const timeDifference = dueDate - currentDate;
     const timeDifferenceinDays = Math.floor(timeDifference / (1000*3600*24));
+
+    const timeCreated = (new Date()).getTime();
 
     let today = new Date();
     let dd = today.getDate();

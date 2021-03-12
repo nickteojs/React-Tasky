@@ -1,4 +1,3 @@
-// Props passed in using destructuring
 const Button = ({color, text, onClick}) => {
     return (
         <div>

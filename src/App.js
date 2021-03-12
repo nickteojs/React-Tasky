@@ -1,15 +1,11 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import Sidebar from './components/Sidebar'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 import Editor from './components/Editor'
-import About from './components/About'
 import { FcPlus } from 'react-icons/fc'
 import { useState, useEffect } from 'react'
-
 import 'react-toastify/dist/ReactToastify.css';
-
 
 function App() {
     const [showAddTask, setShowAddTask] = useState(false)
@@ -35,6 +31,12 @@ function App() {
 
     useEffect(() => {
       pinnedFilterHandler()
+    }, [tasks])
+
+    useEffect(() => {
+      tasks.sort((a,b) => {
+        return b.timeCreated - a.timeCreated;
+      })
     }, [tasks])
 
     useEffect(() => {
@@ -118,7 +120,7 @@ function App() {
   const notifyTaskUpdate = () => toast.success("Task Updated!");
   
   return (
-    <Router>
+    <>
       <ToastContainer 
         autoClose={2500}
         hideProgressBar
@@ -135,19 +137,14 @@ function App() {
       />
       {showEditor && <Editor taskUpdate={notifyTaskUpdate} taskToEdit={taskToEdit} onEdit={editTaskHandler} setShowEditor={() => setShowEditor(!showEditor)}/>}
       <div className="container">
-        <Route path='/' exact render={(props) => (
-          <>
-            {/* Shorthand turnary if else is nothing */}
+          {/* Shorthand turnary if else is nothing */}
           {showAddTask && <AddTask taskSuccess={notifyTaskSuccess} onAdd={addTask} setShowAddTask={() => setShowAddTask(!showAddTask)}/>}
           {/* Turnary Operator to display no tasks message */}
           <div className="task-title">{taskTitle}</div>
-          {tasks.length> 0 ? <Tasks taskComplete={notifyTaskComplete} taskRemove={notifyTaskRemove} tasks={tasks} filteredTasks={filteredTasks} onDelete={deleteTask} togglePin={togglePin} onToggle={onComplete} editorHandler={editorHandler}/> : <div style={{color: 'white'}}>Get started!</div>}
+          {tasks.length> 0 ? <Tasks taskComplete={notifyTaskComplete} taskRemove={notifyTaskRemove} tasks={tasks} filteredTasks={filteredTasks} onDelete={deleteTask} togglePin={togglePin} onToggle={onComplete} editorHandler={editorHandler}/> : <div className="reminder" style={{color: 'white'}}>Get started!</div>}
           <FcPlus className="add-task" onClick={() => setShowAddTask(!showAddTask)}/>
-          </>
-        )}/>
-        <Route path='/about' component={About}/>
       </div>
-    </Router>
+    </>
   );
 }
 

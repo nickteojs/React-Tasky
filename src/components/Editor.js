@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
 const Editor = ({taskToEdit, onEdit, setShowEditor, taskUpdate}) => {
@@ -12,12 +12,6 @@ const Editor = ({taskToEdit, onEdit, setShowEditor, taskUpdate}) => {
         setShowEditor(false);
         taskUpdate();
     }
-
-    // useEffect(() => {
-    //     setEditedText(taskToEdit.text)
-    //     setEditedDay(taskToEdit.day)
-    //     setEditedNote(taskToEdit.note)
-    // }, [])
     
     let today = new Date();
     let dd = today.getDate();

@@ -6,19 +6,23 @@ const Quote = () => {
     const [author, setAuthor] = useState([])
 
     useEffect(() => {
-        // fetch("https://type.fit/api/quotes")
-        //   .then(response => response.json())
-        //   .then(data => {
-        //     const randomQuote = data[Math.floor(Math.random() * 1642)]
-        //     const {text, author} = randomQuote
-        //     setQuote(text)
-        //     setAuthor(author)
-        //   });
-
-        const randomQuote = Quotes[Math.floor(Math.random() * 1600)]
-        const {text, author} = randomQuote
-        setQuote(text)
-        setAuthor(author)
+        fetch("https://type.fit/api/quotes")
+            .then(response => {
+                if (response.status >= 400) {
+                    console.log("Failed to fetch, using data from local quotes instead")
+                    const randomQuote = Quotes[Math.floor(Math.random() * 1600)]
+                    const {text, author} = randomQuote
+                    setQuote(text)
+                    setAuthor(author)
+                }
+                return response.json();
+            })
+            .then(data => {
+                const randomQuote = data[Math.floor(Math.random() * 1642)]
+                const {text, author} = randomQuote
+                setQuote(text)
+                setAuthor(author)
+            })
       }, [])
 
     return (

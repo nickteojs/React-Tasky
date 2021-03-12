@@ -1,13 +1,9 @@
-import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
-import { AiFillPushpin, AiFillStar } from 'react-icons/ai'
-import Button from './Button'
+import { AiFillStar } from 'react-icons/ai'
 import Footer from './Footer'
 import Quote from './Quote'
 import Pinned from './Pinned'
 
-const Sidebar = ({tasks, pinnedTasks, completedTasks, unCompletedTasks, filteredTasks, showAdd, setStatus, status}) => {
-    const location = useLocation()
+const Sidebar = ({tasks, pinnedTasks, completedTasks, unCompletedTasks, setStatus, status}) => {
 
     const allHandler = () => {
         setStatus('all')
@@ -35,13 +31,6 @@ const Sidebar = ({tasks, pinnedTasks, completedTasks, unCompletedTasks, filtered
                 ))}
             </div>
             <Footer className="footer"/>
-            {/* <div className="custom-select">
-                <select name="todos">
-                    <option value="all">All</option>
-                    <option value="completed">Completed</option>
-                    <option value="uncompleted">Uncompleted</option>
-                </select>
-            </div> */}
         </div>
     )
 }
