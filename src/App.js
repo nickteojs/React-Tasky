@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [showAddTask, setShowAddTask] = useState(false)
-    // 1st part is state you want to update, 2nd is the function to update it
     let storedTasks = localStorage.getItem('task');
     const [tasks, setTasks] = useState(storedTasks ? JSON.parse(storedTasks) : []);
     const [status, setStatus] = useState('all');
@@ -21,6 +20,7 @@ function App() {
     const [showEditor, setShowEditor] = useState(false)
     const [taskToEdit, setTaskToEdit] = useState([]);
 
+    // Saves tasks to local storage
     useEffect(() => {
       localStorage.setItem('task', JSON.stringify(tasks));
     }, [tasks])
@@ -33,12 +33,15 @@ function App() {
       pinnedFilterHandler()
     }, [tasks])
 
+    // Sorts tasks based on date created
     useEffect(() => {
       tasks.sort((a,b) => {
         return b.timeCreated - a.timeCreated;
       })
     }, [tasks])
 
+
+    // Display number of complete/uncomplete tasks
     useEffect(() => {
       let completedTasks = (tasks.filter(task => task.completed)).length;
       setCompletedTasks(completedTasks);

@@ -1,6 +1,6 @@
 import { MdDelete } from 'react-icons/md'
 import { TiTick, TiPencil } from 'react-icons/ti'
-import {  AiFillStar } from 'react-icons/ai'
+import { AiFillStar } from 'react-icons/ai'
 
 const Task = ({ task, onDelete, onToggle, togglePin, editorHandler, taskComplete, taskRemove }) => {
     const currentDate = new Date();
