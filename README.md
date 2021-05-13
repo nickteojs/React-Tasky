@@ -10,7 +10,7 @@ Extra Features:
 * Updating Tasks
 * Randomnized motivational quotes from "https://type.fit/api/quotes"
 
-View working demoL
+View working demo:
 https://nickteo-tasky-bcfee8.netlify.app/
 
 ## Installation
